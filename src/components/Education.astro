@@ -1,0 +1,23 @@
+---
+import { education } from '../data/education';
+---
+
+<section id="education" class="py-24 px-6 bg-bg-elevated">
+  <div class="max-w-[720px] mx-auto">
+    <h2 class="font-heading text-3xl md:text-4xl mb-12">Education</h2>
+    <div class="space-y-10">
+      {education.map((edu) => (
+        <div>
+          <p class="text-text-muted text-sm font-mono mb-1">{edu.period}</p>
+          <h3 class="text-xl font-heading">{edu.institution}</h3>
+          <p class="text-text-secondary mt-1">{edu.degree}</p>
+          <ul class="mt-3 space-y-1">
+            {edu.details.map((detail) => (
+              <li class="text-text-secondary text-sm">{detail}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,17 @@
+---
+import { achievements } from '../data/achievements';
+---
+
+<section id="achievements" class="py-24 px-6 bg-bg-elevated">
+  <div class="max-w-[720px] mx-auto">
+    <h2 class="font-heading text-3xl md:text-4xl mb-12">Achievements</h2>
+    <ul class="space-y-4">
+      {achievements.map((a) => (
+        <li class={`flex items-start gap-3 text-sm ${a.highlight ? 'text-accent' : 'text-text-secondary'}`}>
+          <span class={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${a.highlight ? 'bg-accent' : 'bg-text-muted'}`} />
+          {a.title}
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
