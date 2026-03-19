@@ -8,7 +8,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://danendralohanata.github.io',
+  site: 'https://danendral.github.io',
   integrations: [react(), mdx(), sitemap()],
   output: 'static',
   vite: {
