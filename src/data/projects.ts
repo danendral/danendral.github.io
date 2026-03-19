@@ -17,11 +17,6 @@ export const projects: Project[] = [
     tags: ['Python', 'OpenCV', 'YOLOv11', 'scikit-learn'],
   },
   {
-    title: 'Oyika Data Lakehouse',
-    description: 'Company-wide Databricks lakehouse integrating AliCloud, AWS, and Google Drive for centralized cross-departmental analytics.',
-    tags: ['Databricks', 'SQL', 'AWS', 'AliCloud'],
-  },
-  {
     title: 'AI Customer Service & Sales AI',
     description: 'AI-powered customer service with automated troubleshooting and escalation, plus omnichannel sales AI across WhatsApp, Instagram, Facebook, and TikTok.',
     tags: ['OpenAI', 'Pinecone', 'MongoDB', 'n8n', 'AWS'],
@@ -40,10 +35,5 @@ export const projects: Project[] = [
     title: 'Sports Data Hackathon',
     description: 'Football player position prediction using tracking data. 1st place.',
     tags: ['Python', 'TensorFlow', 'Data Analysis'],
-  },
-  {
-    title: 'VRP Optimization',
-    description: "Vehicle Routing Problem optimization for battery-swapping logistics operations.",
-    tags: ['Python', 'OR'],
   },
 ];
