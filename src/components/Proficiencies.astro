@@ -1,0 +1,50 @@
+---
+const proficiencies = [
+  {
+    title: 'Automation & AI Agents',
+    description: 'AI-driven CRM systems, omnichannel sales AI across WhatsApp, Instagram, and TikTok, and intelligent workflow orchestration with n8n and cloud infrastructure.',
+    icon: '🚀',
+  },
+  {
+    title: 'AI & Machine Learning',
+    description: 'Forecasting, clustering, CNNs, LSTMs, anomaly detection, and predictive modeling for real-world business problems.',
+    icon: '🤖',
+  },
+  {
+    title: 'Data Analytics & Strategy',
+    description: 'End-to-end data solutions, KPI dashboards, and business intelligence to drive decision-making across organizations.',
+    icon: '📊',
+  },
+  {
+    title: 'Web & Software Development',
+    description: 'Corporate websites, inventory management systems, ERPs, and custom web applications — from landing pages to full-stack business tools.',
+    icon: '🌐',
+  },
+  {
+    title: 'Data Engineering',
+    description: 'Lakehouse architecture, ETL pipelines, and cloud infrastructure across AWS, GCP, and Databricks.',
+    icon: '⚙️',
+  },
+  {
+    title: 'Excel & Competitive Analytics',
+    description: 'Advanced Excel modeling, Power Query, Power Pivot, interactive dashboards, and competitive problem-solving at the world championship level.',
+    icon: '📈',
+  },
+];
+---
+
+<section id="proficiencies" class="py-24 px-6">
+  <div class="max-w-[1080px] mx-auto">
+    <h2 class="font-heading text-3xl md:text-4xl font-bold mb-4 text-center">What I Do</h2>
+    <p class="text-text-secondary text-center mb-14 max-w-[520px] mx-auto">Turning complex data into actionable insights and intelligent solutions.</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {proficiencies.map((p) => (
+        <div class="group p-6 rounded-xl border border-border bg-bg/40 backdrop-blur-sm hover:border-accent/30 hover:bg-bg-subtle/50 transition-all duration-300">
+          <div class="text-3xl mb-4">{p.icon}</div>
+          <h3 class="font-heading text-lg font-semibold mb-2 group-hover:text-accent transition-colors">{p.title}</h3>
+          <p class="text-text-secondary text-sm leading-relaxed">{p.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
