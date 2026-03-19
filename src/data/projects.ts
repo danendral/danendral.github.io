@@ -17,11 +17,6 @@ export const projects: Project[] = [
     tags: ['Python', 'OpenCV', 'YOLOv11', 'scikit-learn'],
   },
   {
-    title: 'AI Customer Service & Sales AI',
-    description: 'AI-powered customer service with automated troubleshooting and escalation, plus omnichannel sales AI across WhatsApp, Instagram, Facebook, and TikTok.',
-    tags: ['OpenAI', 'Pinecone', 'MongoDB', 'n8n', 'AWS'],
-  },
-  {
     title: 'Snake Game DRL',
     description: 'Deep Reinforcement Learning agent for Snake game, including custom environment, reward mechanism, and DRL model in TensorFlow.',
     tags: ['Python', 'TensorFlow', 'DRL'],
