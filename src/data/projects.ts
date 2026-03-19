@@ -8,22 +8,27 @@ export interface Project {
 export const projects: Project[] = [
   {
     title: 'BantuAI',
-    description: 'AI-powered customer service platform. WhatsApp-based RAG chatbot for an Indonesian electronics retailer.',
+    description: 'End-to-end AI customer service platform with RAG-based agents, vector search, ticket classification, and a natural language "Talk to DB" admin dashboard.',
     tags: ['n8n', 'Supabase', 'OpenAI', 'WAHA', 'WhatsApp API'],
   },
   {
+    title: 'Football Match Video Analysis',
+    description: 'Computer vision pipeline using YOLOv11, ByteTrack, and K-Means for player detection, tracking, team assignment, speed/distance computation, and ball possession analysis.',
+    tags: ['Python', 'OpenCV', 'YOLOv11', 'scikit-learn'],
+  },
+  {
     title: 'Oyika Data Lakehouse',
-    description: 'Built company-wide Databricks lakehouse integrating AliCloud, AWS, and Google Drive for centralized analytics across SEA operations.',
+    description: 'Company-wide Databricks lakehouse integrating AliCloud, AWS, and Google Drive for centralized cross-departmental analytics.',
     tags: ['Databricks', 'SQL', 'AWS', 'AliCloud'],
   },
   {
-    title: 'AI Customer Support Bot',
-    description: 'Deployed AI chatbot integrated with Zendesk CRM, handling 2,000+ tickets/month across WhatsApp, Instagram, email.',
-    tags: ['Zendesk', 'OpenAI', 'Python'],
+    title: 'AI Customer Service & Sales AI',
+    description: 'AI-powered customer service with automated troubleshooting and escalation, plus omnichannel sales AI across WhatsApp, Instagram, Facebook, and TikTok.',
+    tags: ['OpenAI', 'Pinecone', 'MongoDB', 'n8n', 'AWS'],
   },
   {
     title: 'Snake Game DRL',
-    description: 'Deep Reinforcement Learning agent for Snake game — agent scored 40 points within 50 episodes.',
+    description: 'Deep Reinforcement Learning agent for Snake game, including custom environment, reward mechanism, and DRL model in TensorFlow.',
     tags: ['Python', 'TensorFlow', 'DRL'],
   },
   {
@@ -37,13 +42,8 @@ export const projects: Project[] = [
     tags: ['Python', 'TensorFlow', 'Data Analysis'],
   },
   {
-    title: 'Excel Esports',
-    description: 'Competed in Microsoft Excel World Championship. 1st place MEWC Indonesia 2024, Top 8 Collegiate Challenge 2022.',
-    tags: ['Excel', 'Problem Solving'],
-  },
-  {
     title: 'VRP Optimization',
-    description: "Vehicle Routing Problem optimization for Oyika's battery-swapping logistics.",
+    description: "Vehicle Routing Problem optimization for battery-swapping logistics operations.",
     tags: ['Python', 'OR'],
   },
 ];

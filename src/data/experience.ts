@@ -11,38 +11,40 @@ export const experiences: Experience[] = [
     role: 'Data, Analytics, and AI',
     period: 'Jan 2023 – Present',
     description: [
-      'Lead end-to-end data strategy across SEA; manage 3TB+ data spanning operations, CRM, and IoT',
-      'Led analytics on sales funneling, retention, churn, LTV — enabling ~300% YoY growth',
-      'Deployed Zendesk CRM + AI chatbot; managed 2,000+ tickets/month',
-      'Built Databricks data lakehouse integrating AliCloud, AWS, and Google Drive',
-      'Coordinated Power BI dashboards for real-time bike tracking and business KPIs',
-      'R&D: Vehicle Routing Problem optimization, battery performance tracking',
+      'Lead end-to-end data strategy and analytics across Southeast Asia operations',
+      'Architect and deploy AI-powered customer service system with automated troubleshooting and human-in-the-loop escalation',
+      'Build omnichannel sales AI handling lead engagement and escalation across WhatsApp, Instagram, Facebook, and TikTok',
+      'Design and implement company-wide Databricks data lakehouse integrating multiple cloud platforms',
+      'Deliver Power BI dashboards for real-time tracking and R&D initiatives including vehicle routing optimization',
     ],
   },
   {
     company: 'Belajarlagi',
     role: 'Excel Bootcamp Instructor',
     period: 'Jul 2025 – Aug 2025',
-    description: [],
+    description: [
+      'Deliver Excel training from fundamentals to advanced analytics, Power Query, Power Pivot, and interactive dashboards',
+      'Design business case-driven projects to develop practical analytical thinking',
+    ],
   },
   {
     company: 'Rolls-Royce Singapore',
     role: 'AI Intern',
     period: 'Jul 2022 – Dec 2022',
     description: [
-      'Anomaly detection for multivariate time series (jet engine failure prevention)',
-      'R&D in multimodal ML (text + images) for aerospace',
-      'Root cause analysis on fuel consumption using ML',
-      'Fire evacuation system (Excel, SQL, JavaScript)',
+      'Develop anomaly detection models for multivariate time series in aerospace',
+      'Support R&D in multimodal ML combining text and image data for next-gen solutions',
+      'Conduct root cause analysis on fuel consumption efficiency using ML',
+      'Build fire evacuation management system using Excel, SQL, and JavaScript',
     ],
   },
   {
     company: 'Shopee',
-    role: 'Regional Data Analytics Intern',
+    role: 'Data Analytics Intern',
     period: 'Jan 2022 – Apr 2022',
     description: [
-      'SQL aggregation + real-time dashboard for Shopee Express rider productivity across SEA',
-      'Root cause analysis coordinating with local ops teams',
+      'Build SQL-driven aggregation pipelines and real-time interactive dashboards for regional operations',
+      'Conduct root cause analysis and coordinate with local teams to implement data-driven solutions',
     ],
   },
   {
@@ -50,8 +52,8 @@ export const experiences: Experience[] = [
     role: 'Data Science Intern',
     period: 'May 2021 – Jul 2021',
     description: [
-      'BERT-based NER for skills detection in job ads (90% accuracy)',
-      'Managed 30+ models on GCP + MLflow',
+      'Develop BERT-based NER models for skills detection in job advertisements using NLP',
+      'Manage ML model lifecycle on GCP with MLflow for experiment tracking and evaluation',
     ],
   },
   {
@@ -59,13 +61,7 @@ export const experiences: Experience[] = [
     role: 'Undergraduate Student Researcher',
     period: 'Aug 2020 – May 2021',
     description: [
-      'Deep Reinforcement Learning on Snake Game (TensorFlow)',
+      'Implement deep reinforcement learning agents for game environments using TensorFlow',
     ],
-  },
-  {
-    company: 'Mathematics Olympiad Trainer',
-    role: 'Trainer',
-    period: 'May 2020 – Dec 2020',
-    description: [],
   },
 ];
