@@ -2,17 +2,17 @@
 
 @theme {
   --color-bg: #0A0A0A;
-  --color-bg-elevated: #141414;
-  --color-bg-subtle: #1E1E1E;
+  --color-bg-elevated: #0F1923;
+  --color-bg-subtle: #1A2332;
   --color-text-primary: #F5F5F5;
   --color-text-secondary: #A0A0A0;
   --color-text-muted: #666666;
   --color-accent: #5BA4CF;
   --color-accent-dim: #3D7A9E;
-  --color-border: #2A2A2A;
+  --color-border: #1E2D3D;
 
-  --font-heading: 'Instrument Serif', serif;
-  --font-body: 'Geist', 'Satoshi', system-ui, sans-serif;
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 }
 
@@ -22,6 +22,7 @@
     background-color: var(--color-bg);
     color: var(--color-text-primary);
     font-family: var(--font-body);
+    letter-spacing: 0.01em;
   }
 
   ::selection {
@@ -57,4 +58,22 @@
 
 .animate-pulse-dot {
   animation: pulse-dot 2s ease-in-out infinite;
+}
+
+/* Subtle section tinting — no visible seams */
+.section-tint {
+  background: rgba(91, 164, 207, 0.02);
+}
+
+/* Profile image glow */
+.profile-glow {
+  box-shadow: 0 0 40px rgba(91, 164, 207, 0.15), 0 0 80px rgba(91, 164, 207, 0.05);
+}
+
+/* Gradient text */
+.text-gradient {
+  background: linear-gradient(135deg, #5BA4CF 0%, #7BB8DB 50%, #5BA4CF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
