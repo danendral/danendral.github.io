@@ -8,7 +8,7 @@ export interface Experience {
 export const experiences: Experience[] = [
   {
     company: 'Oyika',
-    role: 'Data, Analytics, and AI',
+    role: 'Data and AI Specialist',
     period: 'Jan 2023 – Present',
     description: [
       'Lead end-to-end data strategy and analytics across Southeast Asia operations',
