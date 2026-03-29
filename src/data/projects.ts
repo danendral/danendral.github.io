@@ -7,6 +7,12 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    title: 'Crypto Backtesting Engine',
+    description: 'Interactive backtesting framework that simulates cryptocurrency trading strategies against historical Binance data, with cached SQLite storage, technical indicators (EMA, RSI, ATR), and a Streamlit dashboard for configuring strategies and visualizing results.',
+    tags: ['Python', 'Pandas', 'NumPy', 'Streamlit', 'Plotly', 'Binance API', 'SQLite'],
+    link: 'https://crypto-backtester.streamlit.app/',
+  },
+  {
     title: 'BantuAI',
     description: 'End-to-end AI customer service platform with RAG-based agents, vector search, ticket classification, and a natural language "Talk to DB" admin dashboard.',
     tags: ['n8n', 'Supabase', 'OpenAI', 'WAHA', 'WhatsApp API'],
