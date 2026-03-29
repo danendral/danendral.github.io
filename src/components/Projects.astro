@@ -6,17 +6,23 @@ import { projects } from '../data/projects';
   <div class="max-w-[1080px] mx-auto">
     <h2 class="font-heading text-3xl md:text-4xl font-bold mb-12 max-w-[720px] mx-auto">Projects</h2>
     <div class="grid md:grid-cols-2 gap-6">
-      {projects.map((project) => (
-        <div class="bg-bg/40 backdrop-blur-sm border border-border rounded-lg p-6 hover:scale-[1.02] hover:border-accent/30 transition-all duration-300">
-          <h3 class="font-heading text-lg mb-2">{project.title}</h3>
-          <p class="text-text-secondary text-sm leading-relaxed mb-4">{project.description}</p>
-          <div class="flex flex-wrap gap-2">
-            {project.tags.map((tag) => (
-              <span class="text-xs font-mono px-2 py-1 bg-bg-subtle text-text-muted rounded">{tag}</span>
-            ))}
-          </div>
-        </div>
-      ))}
+      {projects.map((project) => {
+        return (
+          <a href={project.slug ? `/projects/${project.slug}` : undefined}
+             class:list={[
+               "bg-bg/40 backdrop-blur-sm border border-border rounded-lg p-6 transition-all duration-300 block no-underline text-inherit",
+               project.slug && "hover:scale-[1.02] hover:border-accent/30 cursor-pointer"
+             ]}>
+            <h3 class="font-heading text-lg mb-2">{project.title}</h3>
+            <p class="text-text-secondary text-sm leading-relaxed mb-4">{project.description}</p>
+            <div class="flex flex-wrap gap-2">
+              {project.tags.map((tag) => (
+                <span class="text-xs font-mono px-2 py-1 bg-bg-subtle text-text-muted rounded">{tag}</span>
+              ))}
+            </div>
+          </a>
+        );
+      })}
     </div>
   </div>
 </section>
