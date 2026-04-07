@@ -1,0 +1,386 @@
+---
+title: "RAG Is Not Just 'Embed + Retrieve': 6 Pitfalls I Found Building a Production Chatbot"
+date: 2026-04-07
+tags: ["AI", "RAG", "n8n", "Production"]
+excerpt: "I built a WhatsApp RAG chatbot for an Indonesian electronics retailer. Here are the 6 pitfalls that nearly broke it — and how I fixed each one."
+---
+
+## The RAG Hype vs Reality
+
+If you've read any RAG tutorial in the last year, you've seen the same diagram:
+
+> User query → Embed → Search vector DB → Stuff into prompt → Get answer.
+
+It looks so simple. And technically, it *is* simple — to build a prototype. The hard part is making it work reliably in production, where users ask messy questions, your knowledge base is imperfect, and "good enough" isn't good enough when you're handling 2,000+ support tickets a month.
+
+I learned this the hard way building **BantuAI**, a RAG-powered customer service chatbot for an Indonesian electronics retailer. The bot handles WhatsApp inquiries about products, warranties, and order status — and it needed to be right, not just plausible.
+
+Here are the 6 pitfalls I encountered, and what I'd do differently if I rebuilt it today.
+
+---
+
+## The Big Picture
+
+Before diving into each pitfall, here's what a production RAG system actually looks like — and where things go wrong:
+
+![The 6 pitfalls of RAG systems and the RAG pipeline](/images/blog/rag-pitfalls-overview.svg)
+
+Each step in the pipeline — chunking, embedding, retrieval, generation — has its own failure modes. And they compound. Bad chunks lead to bad retrieval, which leads to bad answers, which erodes user trust.
+
+Here's the architecture I built for BantuAI:
+
+![BantuAI architecture diagram showing WhatsApp, n8n, Supabase, and OpenAI](/images/blog/rag-architecture.svg)
+
+Now let's talk about what went wrong at each step.
+
+---
+
+## Pitfall 1: Naive Chunking Destroys Context
+
+### The Problem
+
+Most tutorials tell you to split your documents into fixed-size chunks — say, 500 tokens with 50-token overlap. This is the easiest approach, and it's wrong for most real-world use cases.
+
+Here's what happens when you chunk a product FAQ by fixed token count:
+
+```
+Chunk 1: "Q: What is the warranty period for electric bikes?
+A: Our electric bikes come with a 2-year warranty on the frame
+and 1-year warranty on the battery. The warranty covers..."
+
+Chunk 2: "...manufacturing defects only. It does not cover normal
+wear and tear, accidents, or misuse. Q: How do I claim warranty?
+A: To claim warranty, please contact our support team via..."
+```
+
+The question "How do I claim warranty?" is in Chunk 2, but the answer references "manufacturing defects only" from Chunk 1. If the retriever only fetches Chunk 2, the LLM gets an incomplete picture.
+
+### The Fix
+
+**Semantic chunking** — split at natural boundaries, not arbitrary token counts.
+
+```python
+# Bad: fixed-size chunking
+chunks = text_splitter.create_documents(
+    texts=[document],
+    chunk_size=500,
+    chunk_overlap=50
+)
+
+# Better: split by structure
+def chunk_by_structure(text):
+    """Split by headers, sections, or Q&A pairs."""
+    import re
+    # Split on Q: boundaries for FAQ documents
+    return re.split(r'\n(?=Q:)', text)
+
+# Best: recursive splitting with metadata
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+
+splitter = RecursiveCharacterTextSplitter(
+    separators=["\n\n", "\n", ". ", " ", ""],
+    chunk_size=500,
+    chunk_overlap=50,
+    keep_separator=True
+)
+```
+
+For BantuAI, I used a hybrid approach:
+- **FAQ documents**: Split by Q&A pairs (natural boundaries)
+- **Product manuals**: Split by section headers, then sub-sections
+- **Policies**: Split by numbered clauses
+
+I also attached **metadata** to each chunk — product category, document type, version — so the retriever could filter before searching.
+
+### Rule of Thumb
+
+| Document Type | Chunking Strategy |
+|--------------|-------------------|
+| FAQ / Q&A | Split by question |
+| Manuals / Guides | Split by headers |
+| Policies / Terms | Split by clauses |
+| Conversations | Split by speaker turn |
+| Code | Split by function/class |
+
+---
+
+## Pitfall 2: Cosine Similarity ≠ Semantic Relevance
+
+### The Problem
+
+Your vector database returns the "most similar" chunks based on cosine similarity. But similarity and relevance are not the same thing.
+
+A user asks: *"My bike battery dies after 2 hours, is this normal?"*
+
+The retriever might return:
+- A chunk about battery specifications (similar, but not helpful)
+- A chunk about warranty claims (less similar, but more relevant)
+- A chunk about general bike maintenance (similar, irrelevant)
+
+Cosine similarity measures vector proximity, not answer quality.
+
+### The Fix
+
+**Hybrid search + reranking.**
+
+Instead of relying solely on embeddings, combine:
+
+1. **BM25 (keyword search)** — catches exact matches for product names, model numbers
+2. **Embedding search (semantic)** — catches conceptual matches
+3. **Reranking** — a cross-encoder model re-scores the top results from both
+
+```python
+# Conceptual hybrid search pipeline
+def hybrid_search(query, vector_db, keyword_db, top_k=10):
+    # Step 1: Get results from both sources
+    vector_results = vector_db.similarity_search(query, k=top_k)
+    keyword_results = keyword_db.search(query, k=top_k)
+    
+    # Step 2: Merge and deduplicate
+    combined = merge_results(vector_results, keyword_results)
+    
+    # Step 3: Rerank with cross-encoder
+    reranked = reranker.rank(query, combined, top_k=5)
+    
+    return reranked
+```
+
+For BantuAI, I used Supabase's pgvector for embedding search and added a full-text search index for keyword matching. The reranking step was the biggest quality improvement — it cost a few extra milliseconds but dramatically reduced irrelevant results.
+
+### What I'd Do Differently
+
+If I rebuilt BantuAI today, I'd use a dedicated reranker like **Cohere Rerank** or **bge-reranker** instead of relying on embedding similarity alone. The quality difference is significant.
+
+---
+
+## Pitfall 3: The Overloaded Prompt
+
+### The Problem
+
+When you retrieve 10 chunks and stuff them all into one prompt, the LLM gets confused. It's like giving someone 10 different manuals and asking them to answer a simple question.
+
+```
+System: Answer the user's question based on the context below.
+If you don't know, say "I don't know."
+
+Context:
+[Chunk 1: Battery specs for Model X...]
+[Chunk 2: Warranty policy section 3.2...]
+[Chunk 3: Shipping info for Jakarta...]
+[Chunk 4: Return policy for accessories...]
+[Chunk 5: Battery charging guidelines...]
+[Chunk 6: Warranty claim process...]
+[Chunk 7: Store locations in Surabaya...]
+[Chunk 8: Battery replacement cost...]
+[Chunk 9: General safety guidelines...]
+[Chunk 10: Contact information...]
+
+User: How long is the battery warranty?
+```
+
+The model has to find the relevant information across 10 chunks. Sometimes it does. Sometimes it hallucinates by combining information from unrelated chunks.
+
+### The Fix
+
+**Context filtering + progressive summarization.**
+
+```python
+def smart_context_building(query, retrieved_chunks, max_tokens=2000):
+    """Build context that actually fits and matters."""
+    
+    # Step 1: Score each chunk's relevance to the query
+    scored = [(chunk, relevance_score(query, chunk)) 
+              for chunk in retrieved_chunks]
+    
+    # Step 2: Keep only chunks above threshold
+    relevant = [chunk for chunk, score in scored if score > 0.7]
+    
+    # Step 3: Truncate each chunk to the most relevant part
+    trimmed = [truncate_to_relevant(chunk, query) 
+               for chunk in relevant]
+    
+    # Step 4: Fill up to token limit
+    context = ""
+    for chunk in trimmed:
+        if len(context) + len(chunk) > max_tokens:
+            break
+        context += chunk + "\n\n"
+    
+    return context
+```
+
+In practice, for BantuAI, I found that **3-5 well-selected chunks** always outperformed 10 chunks stuffed blindly. Less context, better answers.
+
+---
+
+## Pitfall 4: No Guardrails for Hallucination
+
+### The Problem
+
+Without guardrails, your RAG system will confidently make up answers when the retrieved context doesn't contain the information. This is especially dangerous for customer support — a wrong answer about warranty or pricing can cost real money.
+
+### The Fix
+
+**Layered defense against hallucination:**
+
+**Layer 1: System prompt design**
+
+```
+You are a customer support assistant. Answer ONLY based on the
+provided context. If the context does not contain enough
+information to answer the question, respond with:
+"I don't have enough information to answer that. Would you
+like me to connect you with a human agent?"
+
+Never make up information. Never guess.
+```
+
+**Layer 2: Confidence scoring**
+
+After the LLM generates an answer, run a second pass to score confidence:
+
+```python
+def score_confidence(query, context, answer):
+    """Use a separate LLM call to verify the answer."""
+    verification_prompt = f"""
+    Given this question and context, does the answer come from
+    the context? Rate confidence 0-100.
+    
+    Question: {query}
+    Context: {context}
+    Answer: {answer}
+    
+    Confidence: """
+    
+    score = llm(verification_prompt)
+    return int(score)
+```
+
+**Layer 3: Fallback to human**
+
+If confidence is below a threshold (I used 70), the bot responds:
+
+> "I'm not entirely sure about this. Let me connect you with a human agent who can help better."
+
+For BantuAI, this fallback was integrated with Zendesk — low-confidence answers automatically created a ticket and notified a human agent.
+
+---
+
+## Pitfall 5: No Evaluation Loop
+
+### The Problem
+
+Most people build a RAG system, test it with 5 questions, and deploy. But you have no idea how it performs on the 500 different questions users will actually ask.
+
+### The Fix
+
+**Build an evaluation pipeline from day one.**
+
+I use the **RAGAS framework** to track three key metrics:
+
+| Metric | What It Measures | Target |
+|--------|-----------------|--------|
+| **Faithfulness** | Does the answer come from the context? | > 0.85 |
+| **Context Precision** | Are the retrieved chunks actually relevant? | > 0.80 |
+| **Answer Relevancy** | Does the answer actually address the question? | > 0.80 |
+
+```python
+from ragas import evaluate
+from ragas.metrics import faithfulness, context_precision, answer_relevancy
+
+# Golden dataset of question-answer pairs
+evaluation_data = [
+    {
+        "question": "How long is the battery warranty?",
+        "answer": "2 years on the frame, 1 year on the battery.",
+        "contexts": [retrieved_chunk_1, retrieved_chunk_2],
+        "ground_truth": "Battery warranty is 1 year, frame is 2 years."
+    },
+    # ... more examples
+]
+
+results = evaluate(
+    evaluation_data,
+    metrics=[faithfulness, context_precision, answer_relevancy]
+)
+```
+
+For BantuAI, I also maintained a **manual review queue** — every low-confidence answer was logged and reviewed weekly. This caught edge cases that automated metrics missed.
+
+### What I Wish I Knew Earlier
+
+Start your golden dataset *before* you build the system. Collect real user questions from day one, even if you're answering them manually at first. This dataset becomes your evaluation benchmark.
+
+---
+
+## Pitfall 6: Ignoring the User Experience
+
+### The Problem
+
+You can have the best RAG system in the world, but if users can't tell when it's uncertain, they'll either trust it too much or not at all.
+
+### The Fix
+
+**Transparency builds trust.**
+
+For BantuAI, I implemented three UX patterns:
+
+**1. Source citations**
+
+Every answer included links to the source document:
+
+> "The battery warranty is 1 year from purchase date.
+> *Source: Warranty Policy v2.3, Section 4*"
+
+**2. Confidence indicators**
+
+High confidence answers were direct. Lower confidence answers included a disclaimer:
+
+> "Based on our documentation, the answer is X. However, I'd recommend confirming with our team for the most up-to-date information."
+
+**3. Feedback loop**
+
+Every response included a simple thumbs up/down. This data fed back into the evaluation pipeline and helped identify which chunks needed updating.
+
+---
+
+## The Architecture: BantuAI in Practice
+
+Here's how all of this came together in the actual system:
+
+![BantuAI architecture showing the full RAG pipeline with n8n orchestration](/images/blog/rag-architecture.svg)
+
+The n8n workflow orchestrated the entire pipeline:
+
+1. **WhatsApp message** arrives via WAHA
+2. **n8n triggers** the RAG workflow
+3. **Query processing** — embedding + hybrid retrieval from Supabase
+4. **Context building** — filtering and ranking retrieved chunks
+5. **LLM generation** — OpenAI generates the answer with guardrails
+6. **Confidence check** — if low, create Zendesk ticket instead
+7. **Response** sent back to WhatsApp
+
+The key insight: **n8n made it easy to swap out individual steps**. When I discovered Pitfall 2 (bad retrieval), I could add a reranking step without rewriting the entire system. When I discovered Pitfall 4 (hallucination), I could insert a confidence check node.
+
+---
+
+## Key Takeaways
+
+If you're building a RAG system, here's my advice:
+
+1. **Chunk smart, not hard** — use natural boundaries, not fixed sizes
+2. **Don't trust cosine similarity alone** — hybrid search + reranking is worth the effort
+3. **Less context, better answers** — 3 good chunks beat 10 mediocre ones
+4. **Assume the LLM will lie** — build guardrails, not just prompts
+5. **Measure everything** — RAGAS + golden dataset from day one
+6. **UX matters** — citations, confidence indicators, feedback loops
+
+RAG is not a solved problem. It's an engineering challenge that requires iteration, measurement, and a willingness to admit when your system doesn't know something.
+
+The systems that work in production are the ones that handle uncertainty gracefully — not the ones that pretend to know everything.
+
+---
+
+*This post is based on my experience building BantuAI, a RAG-powered customer service chatbot using n8n, Supabase, OpenAI, and WAHA. The bot handles 2,000+ support tickets per month for an Indonesian electronics retailer.*
+
+*Have questions about RAG architecture? Reach out on [LinkedIn](https://linkedin.com/in/danendralohanata) or [GitHub](https://github.com/danendralohanata).*
