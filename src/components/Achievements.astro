@@ -1,5 +1,26 @@
 ---
 import { achievements } from '../data/achievements';
+
+const hackerrankBadges = [
+  {
+    title: 'Problem<br>Solving',
+    icon: `<svg viewBox="0 0 24 24" fill="currentColor" class="w-9 h-9 mb-1"><path d="M21 16.5c0 .38-.21.71-.53.88l-7.9 4.44c-.16.12-.36.18-.57.18-.21 0-.41-.06-.57-.18l-7.9-4.44A.991.991 0 013 16.5v-9c0-.38.21-.71.53-.88l7.9-4.44c.16-.12.36-.18.57-.18.21 0 .41.06.57.18l7.9 4.44c.32.17.53.5.53.88v9zM12 2.24L4.84 6.26l6.63 3.73c.16.09.35.14.53.14.18 0 .37-.05.53-.14l6.63-3.73L12 2.24zM4.5 15.65l6.5 3.65v-7.39L4.5 8.26v7.39zm15 0v-7.39l-6.5 3.65v7.39l6.5-3.65z"/></svg>`,
+  },
+  {
+    title: 'Python',
+    icon: `<svg viewBox="0 0 24 24" fill="currentColor" class="w-9 h-9 mb-1"><path d="M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06-.01h8.16l.21-.01.26-.04.3-.07.33-.1.35-.14.35-.19.33-.25.3-.31.26-.38.21-.46.13-.55.05-.63V.35l-.02-.2-.04-.26-.1-.3-.16-.33-.25-.34-.34-.34-.45-.32-.59-.3-.73-.26-.9-.2-1.06-.13-1.24-.04-1.42.06-1.58.17-1.72.3-1.85.45-1.95.6-2.04.77-2.12.96-2.18 1.16zm-5.48 1.6c.39 0 .7.31.7.7s-.31.7-.7.7-.7-.31-.7-.7.31-.7.7-.7zm14.48 9.38l.21.03.28.07.32.12.35.18.36.26.36.36.35.46.32.59.28.73.21.88.14 1.05.05 1.23-.06 1.22-.16 1.04-.24.87-.32.71-.36.57-.4.44-.42.33-.42.24-.4.16-.36.1-.32.05-.24.01h-.16l-.06.01H15.6l-.21.01-.26.04-.3.07-.33.1-.35.14-.35.19-.33.25-.3.31-.26.38-.21.46-.13.55-.05.63v8.16l.02.2.04.26.1.3.16.33.25.34.34.34.45.32.59.3.73.26.9.2 1.06.13 1.24.04 1.42-.06 1.58-.17 1.72-.3 1.85-.45 1.95-.6 2.04-.77 2.12-.96 2.18-1.16v-8.31l-.05-.63-.13-.55-.21-.46-.26-.38-.3-.31-.33-.25-.35-.19-.35-.14-.33-.1-.3-.07-.26-.04-.21-.02h-6.49l.69-.05.59-.14.5-.22.41-.27.33-.32.27-.35.2-.36.15-.37.1-.35.07-.32.04-.27.02-.21v-3.06h3.69zM15.25 21.52c.39 0 .7.31.7.7s-.31.7-.7.7-.7-.31-.7-.7.31-.7.7-.7z"/></svg>`,
+  },
+  {
+    title: 'Days of<br>Statistics',
+    icon: `<span class="text-[32px] font-bold leading-none block mb-1 tracking-tighter">10</span>`,
+  },
+  {
+    title: 'Sql',
+    icon: `<svg viewBox="0 0 24 24" fill="currentColor" class="w-9 h-9 mb-1"><path d="M12 2C7.58 2 4 3.79 4 6s3.58 4 8 4 8-1.79 8-4-3.58-4-8-4zm0 6c-3.1 0-5.74-1.21-6.9-3 1.16-1.79 3.8-3 6.9-3s5.74 1.21 6.9 3c-1.16 1.79-3.8 3-6.9 3z"/><path d="M4 9v2c0 2.21 3.58 4 8 4s8-1.79 8-4V9c0 2.21-3.58 4-8 4s-8-1.79-8-4"/><path d="M4 14v2c0 2.21 3.58 4 8 4s8-1.79 8-4v-2c0 2.21-3.58 4-8 4s-8-1.79-8-4"/></svg>`,
+  }
+];
+
+const starSvg = `<svg viewBox="0 0 20 20" fill="currentColor" class="w-[14px] h-[14px]"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>`;
 ---
 
 <section id="achievements" class="py-24 px-6 section-tint">
@@ -16,19 +37,26 @@ import { achievements } from '../data/achievements';
 
     <div class="mt-16">
       <h3 class="font-heading text-2xl font-bold mb-6 text-text-primary">Coding Profiles</h3>
-      <a href="https://www.hackerrank.com/profile/danendral" target="_blank" rel="noopener noreferrer" class="group flex flex-col sm:flex-row items-center sm:items-start gap-6 p-6 rounded-2xl border border-border-color bg-bg-secondary hover:border-[#00EA64]/50 transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-        <div class="flex flex-col items-center shrink-0">
-          <svg role="img" viewBox="0 0 24 24" class="w-14 h-14 fill-text-primary group-hover:fill-[#00EA64] transition-colors duration-300" xmlns="http://www.w3.org/2000/svg"><title>HackerRank</title><path d="M11.988 0l-5.63 3.25v6.5l5.63 3.25 5.63-3.25v-6.5zm0 11.375L7.483 8.775v-5.2l4.505-2.6 4.505 2.6v5.2zM7.483 16.575v-6.5l2.815 1.625v4.875zm11.26-6.5v6.5l-2.815-1.625v-4.875zM11.988 24l5.63-3.25v-6.5l-5.63 3.25-5.63-3.25v6.5l2.815 1.625v-4.875l2.815 1.625zm-2.815-13.65l2.815 1.625 2.815-1.625-2.815-1.625z"/></svg>
+      <a href="https://www.hackerrank.com/profile/dlohanata" target="_blank" rel="noopener noreferrer" class="group block p-8 rounded-2xl border border-border-color bg-[#182028] hover:border-[#F3C242]/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+        <div class="flex items-center gap-4 mb-8">
+          <svg role="img" viewBox="0 0 24 24" class="w-8 h-8 fill-white group-hover:fill-[#F3C242] transition-colors duration-300" xmlns="http://www.w3.org/2000/svg"><title>HackerRank</title><path d="M11.988 0l-5.63 3.25v6.5l5.63 3.25 5.63-3.25v-6.5zm0 11.375L7.483 8.775v-5.2l4.505-2.6 4.505 2.6v5.2zM7.483 16.575v-6.5l2.815 1.625v4.875zm11.26-6.5v6.5l-2.815-1.625v-4.875zM11.988 24l5.63-3.25v-6.5l-5.63 3.25-5.63-3.25v6.5l2.815 1.625v-4.875l2.815 1.625zm-2.815-13.65l2.815 1.625 2.815-1.625-2.815-1.625z"/></svg>
+          <span class="font-bold text-xl text-white group-hover:text-[#F3C242] transition-colors">HackerRank: @dlohanata</span>
         </div>
-        <div class="flex-1 text-center sm:text-left">
-          <h4 class="font-bold text-xl text-text-primary mb-1 group-hover:text-[#00EA64] transition-colors">HackerRank</h4>
-          <p class="text-sm text-text-secondary mb-4">4× 5-Star Gold Badges</p>
-          <div class="flex flex-wrap justify-center sm:justify-start gap-2">
-            <span class="px-3 py-1 rounded-full bg-[#00EA64]/10 text-[#00EA64] text-xs font-semibold border border-[#00EA64]/20 group-hover:bg-[#00EA64]/20 transition-colors">Python</span>
-            <span class="px-3 py-1 rounded-full bg-[#00EA64]/10 text-[#00EA64] text-xs font-semibold border border-[#00EA64]/20 group-hover:bg-[#00EA64]/20 transition-colors">Problem Solving</span>
-            <span class="px-3 py-1 rounded-full bg-[#00EA64]/10 text-[#00EA64] text-xs font-semibold border border-[#00EA64]/20 group-hover:bg-[#00EA64]/20 transition-colors">SQL</span>
-            <span class="px-3 py-1 rounded-full bg-[#00EA64]/10 text-[#00EA64] text-xs font-semibold border border-[#00EA64]/20 group-hover:bg-[#00EA64]/20 transition-colors">10 Days of Statistics</span>
-          </div>
+        
+        <div class="flex flex-wrap items-center justify-center sm:justify-start gap-4">
+          {hackerrankBadges.map(badge => (
+            <div class="relative w-[130px] h-[145px] flex flex-col items-center justify-center bg-[#F3C242] text-[#242D36] transition-transform duration-300 group-hover:scale-105" style="clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); padding: 16px 12px;">
+              <div class="flex-grow flex items-end">
+                <div set:html={badge.icon}></div>
+              </div>
+              <div class="font-bold text-[13px] text-center leading-tight mt-1 mb-2 h-[32px] flex items-center shrink-0" set:html={badge.title}></div>
+              <div class="flex gap-[1px] mb-2 shrink-0">
+                {Array(5).fill(0).map(() => (
+                  <div set:html={starSvg}></div>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       </a>
     </div>
