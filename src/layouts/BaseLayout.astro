@@ -52,5 +52,34 @@ const {
     </main>
     <Footer />
     <ChatWidget client:load />
+
+    <!-- Back to Top Button -->
+    <button
+      id="back-to-top"
+      aria-label="Back to top"
+      class="fixed bottom-8 right-8 z-50 p-3 rounded-full bg-bg-elevated border border-border text-accent opacity-0 translate-y-10 transition-all duration-300 hover:scale-110 hover:border-accent cursor-pointer shadow-lg invisible"
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
+      </svg>
+    </button>
+
+    <script>
+      const backToTop = document.getElementById('back-to-top');
+      
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 400) {
+          backToTop?.classList.remove('opacity-0', 'translate-y-10', 'invisible');
+          backToTop?.classList.add('opacity-100', 'translate-y-0', 'visible');
+        } else {
+          backToTop?.classList.add('opacity-0', 'translate-y-10', 'invisible');
+          backToTop?.classList.remove('opacity-100', 'translate-y-0', 'visible');
+        }
+      });
+
+      backToTop?.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    </script>
   </body>
 </html>
