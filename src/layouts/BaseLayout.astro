@@ -11,8 +11,12 @@ interface Props {
 
 const {
   title = 'Danendra Lohanata — Data, AI, and Analytics',
-  description = 'Personal website of Danendra Lohanata. Data and AI Specialist, NTU Mathematics graduate, Excel esports competitor.',
+  description = 'Personal website of Danendra Lohanata. Data and AI Specialist at Oyika, NTU Mathematics graduate (CGPA 4.88/5.00), and Microsoft Excel World Championship competitor based in Singapore.',
 } = Astro.props;
+
+const siteUrl = 'https://danendral.github.io';
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
+const ogImageUrl = new URL('/profile_image.png', siteUrl).href;
 ---
 
 <!doctype html>
@@ -23,6 +27,10 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
+    <meta name="author" content="Danendra Lohanata" />
+    <meta name="keywords" content="Danendra Lohanata, Danendra, Lohanata, Data Analyst, AI Engineer, Oyika, NTU, Excel esports, Singapore, Data Science, Machine Learning" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <link rel="canonical" href={canonicalUrl} />
     <link rel="preload" as="image" href="/profile_image.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -30,19 +38,63 @@ const {
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://danendralohanata.github.io" />
-    <meta property="og:image" content="/profile_image.png" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:alt" content="Danendra Lohanata" />
     <meta property="og:site_name" content="Danendra Lohanata" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
     <title>{title}</title>
     <script defer src="https://cloud.umami.is/script.js" data-website-id="9631d513-4a40-465b-a909-8b5ff7fa4ce6"></script>
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "Person",
       "name": "Danendra Lohanata",
+      "givenName": "Danendra",
+      "familyName": "Lohanata",
       "jobTitle": "Data and AI Specialist",
-      "worksFor": { "@type": "Organization", "name": "Oyika" },
-      "alumniOf": "Nanyang Technological University",
-      "url": "https://danendralohanata.github.io"
+      "description": "Data and AI Specialist at Oyika, NTU Mathematics graduate, and Microsoft Excel World Championship competitor based in Singapore.",
+      "image": ogImageUrl,
+      "url": siteUrl,
+      "email": "mailto:danendra.lohanata@gmail.com",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Oyika",
+        "url": "https://oyika.com"
+      },
+      "alumniOf": [
+        {
+          "@type": "CollegeOrUniversity",
+          "name": "Nanyang Technological University",
+          "url": "https://www.ntu.edu.sg"
+        },
+        {
+          "@type": "CollegeOrUniversity",
+          "name": "National University of Singapore",
+          "url": "https://www.nus.edu.sg"
+        }
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Singapore",
+        "addressCountry": "SG"
+      },
+      "knowsAbout": ["Data Analytics", "Artificial Intelligence", "Machine Learning", "Microsoft Excel", "SQL", "Python", "Databricks"],
+      "sameAs": [
+        "https://linkedin.com/in/danendralohanata",
+        "https://github.com/danendralohanata",
+        "https://github.com/danendral"
+      ]
+    })} />
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Danendra Lohanata",
+      "url": siteUrl,
+      "author": { "@type": "Person", "name": "Danendra Lohanata" }
     })} />
   </head>
   <body class="text-text-primary min-h-screen" style="background: linear-gradient(180deg, #0A0A0A 0%, #0D1B2A 15%, #0F1E30 30%, #0D1B2A 50%, #0F1E30 70%, #0D1B2A 85%, #0A0A0A 100%); background-attachment: fixed;">
