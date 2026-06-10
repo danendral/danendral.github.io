@@ -23,6 +23,40 @@ function saveSession(messages: Message[]) {
   } catch {}
 }
 
+function renderMarkdown(text: string) {
+  const paragraphs = text.split(/\n{2,}/);
+  return paragraphs.map((para, pi) => {
+    const lines = para.split('\n');
+    const isList = lines.every(l => l.trimStart().startsWith('- ') || l.trimStart().startsWith('* ') || l.trim() === '');
+    if (isList) {
+      const items = lines.filter(l => l.trim());
+      return (
+        <ul key={pi} className="list-none space-y-1 mt-1">
+          {items.map((item, ii) => (
+            <li key={ii} className="flex gap-1.5">
+              <span className="mt-1.5 w-1 h-1 rounded-full flex-shrink-0" style={{ backgroundColor: '#5BA4CF' }} />
+              <span>{inlineFormat(item.replace(/^[\s]*[-*][\s]+/, ''))}</span>
+            </li>
+          ))}
+        </ul>
+      );
+    }
+    return <p key={pi} className={pi > 0 ? 'mt-2' : ''}>{inlineFormat(para)}</p>;
+  });
+}
+
+function inlineFormat(text: string) {
+  const parts = text.split(/(\*\*[^*]+\*\*|\[[^\]]+\]\(https?:\/\/[^)]+\))/g);
+  return parts.map((part, i) => {
+    if (part.startsWith('**') && part.endsWith('**'))
+      return <strong key={i} className="font-semibold text-white">{part.slice(2, -2)}</strong>;
+    const linkMatch = part.match(/^\[([^\]]+)\]\((https?:\/\/[^)]+)\)$/);
+    if (linkMatch)
+      return <a key={i} href={linkMatch[2]} target="_blank" rel="noopener noreferrer" className="underline transition-colors" style={{ color: '#5BA4CF' }}>{linkMatch[1]}</a>;
+    return part;
+  });
+}
+
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>(loadSession);
@@ -43,10 +77,11 @@ export default function ChatWidget() {
     saveSession(messages);
   }, [messages]);
 
-  const sendMessage = async () => {
-    if (!input.trim() || isLoading) return;
+  const sendMessage = async (overrideText?: string) => {
+    const text = overrideText ?? input.trim();
+    if (!text || isLoading) return;
 
-    const userMessage: Message = { role: 'user', content: input.trim() };
+    const userMessage: Message = { role: 'user', content: text };
     const newMessages = [...messages, userMessage];
     setMessages(newMessages);
     setInput('');
@@ -151,7 +186,7 @@ export default function ChatWidget() {
                     {['What does Dan do?', 'Tell me about his projects', 'What are his skills?'].map((q) => (
                       <button
                         key={q}
-                        onClick={() => { setInput(q); }}
+                        onClick={() => { sendMessage(q); }}
                         className="text-xs px-3 py-1.5 rounded-full border cursor-pointer transition-colors"
                         style={{ borderColor: '#1E2D3D', color: '#A0A0A0' }}
                         onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#5BA4CF'; e.currentTarget.style.color = '#5BA4CF'; }}
@@ -175,7 +210,7 @@ export default function ChatWidget() {
                       borderBottomLeftRadius: msg.role === 'assistant' ? '4px' : undefined,
                     }}
                   >
-                    {msg.content}
+                    {msg.role === 'assistant' ? renderMarkdown(msg.content) : msg.content}
                   </div>
                 </div>
               ))}
