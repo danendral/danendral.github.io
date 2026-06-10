@@ -8,13 +8,10 @@ import { projects } from '../data/projects';
     <div class="grid md:grid-cols-2 gap-6">
       {projects.map((project) => {
         const hasDetail = Boolean(project.slug && project.details);
-        const Tag = hasDetail ? 'a' : 'div';
         return (
-          <Tag href={hasDetail ? `/projects/${project.slug}` : undefined}
-             class:list={[
-               "bg-bg/40 backdrop-blur-sm border border-border rounded-lg p-6 transition-all duration-300 block no-underline text-inherit",
-               hasDetail && "hover:scale-[1.02] hover:border-accent/30 cursor-pointer"
-             ]}>
+          <a href={hasDetail ? `/projects/${project.slug}` : undefined}
+             data-no-detail={!hasDetail}
+             class="bg-bg/40 backdrop-blur-sm border border-border rounded-lg p-6 transition-all duration-300 block no-underline text-inherit hover:scale-[1.02] hover:border-accent/30 cursor-pointer">
             <h3 class="font-heading text-lg mb-2">{project.title}</h3>
             <p class="text-text-secondary text-sm leading-relaxed mb-4">{project.description}</p>
             <div class="flex flex-wrap gap-2">
@@ -22,9 +19,15 @@ import { projects } from '../data/projects';
                 <span class="text-xs font-mono px-2 py-1 bg-bg-subtle text-text-muted rounded">{tag}</span>
               ))}
             </div>
-          </Tag>
+          </a>
         );
       })}
     </div>
   </div>
 </section>
+
+<script>
+  document.querySelectorAll('a[data-no-detail="true"]').forEach((card) => {
+    card.addEventListener('click', (e) => e.preventDefault());
+  });
+</script>
