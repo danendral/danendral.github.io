@@ -26,6 +26,27 @@ const starSvg = `<svg viewBox="0 0 20 20" fill="currentColor" class="w-[10px] h-
 <section id="achievements" class="py-24 px-6 section-tint">
   <div class="max-w-[720px] mx-auto">
     <h2 class="font-heading text-3xl md:text-4xl font-bold mb-12">Achievements</h2>
+
+    <!-- CNA Feature Card -->
+    <a
+      href="https://www.channelnewsasia.com/singapore/singapore-student-microsoft-excel-esports-competition-danendra-lohanata-3116361"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="group flex items-center gap-5 mb-12 p-5 rounded-xl border border-border bg-bg-elevated hover:border-accent/40 hover:bg-bg-subtle transition-all duration-300 no-underline"
+    >
+      <!-- CNA logo pill -->
+      <div class="shrink-0 px-3 py-1.5 rounded-md bg-[#D0021B] text-white font-bold text-sm tracking-wide font-mono select-none">
+        CNA
+      </div>
+      <div class="min-w-0">
+        <p class="text-text-muted text-xs font-mono mb-1">Channel NewsAsia · 2022</p>
+        <p class="text-text-primary text-sm font-medium leading-snug group-hover:text-accent transition-colors">
+          "This Singapore student doesn't play video games — he competes in Microsoft Excel esports"
+        </p>
+      </div>
+      <svg class="shrink-0 ml-auto text-text-muted group-hover:text-accent transition-colors" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+    </a>
+
     <ul class="space-y-4">
       {achievements.map((a) => (
         <li class="flex items-start gap-3 text-sm text-text-secondary">
