@@ -1,6 +1,7 @@
 export interface Experience {
   company: string;
   role: string;
+  roleNote?: string;
   period: string;
   description: string[];
 }
@@ -22,7 +23,8 @@ export const experiences: Experience[] = [
   },
   {
     company: 'Belajarlagi',
-    role: 'Excel Bootcamp Instructor (Freelance)',
+    role: 'Excel Bootcamp Instructor',
+    roleNote: 'Freelance',
     period: 'Jul 2025 – Aug 2025',
     description: [
       'Taught 130+ learners across 2 cohorts (students, fresh graduates, working professionals) from fundamentals to advanced analytics, Power Query, Power Pivot, and interactive dashboards — translating complex technical concepts for non-technical audiences',
