@@ -8,14 +8,16 @@ export interface Experience {
 export const experiences: Experience[] = [
   {
     company: 'Oyika',
-    role: 'Data and AI Specialist',
+    role: 'Data and AI Lead',
     period: 'Jan 2023 – Present',
     description: [
-      'Lead end-to-end data strategy and analytics across Southeast Asia operations',
-      'Architect and deploy AI-powered customer service system with automated troubleshooting and human-in-the-loop escalation',
-      'Build omnichannel sales AI handling lead engagement and escalation across WhatsApp, Instagram, Facebook, and TikTok',
-      'Design and implement company-wide Databricks data lakehouse integrating multiple cloud platforms',
-      'Deliver Power BI dashboards for real-time tracking and R&D initiatives including vehicle routing optimization',
+      'Own Oyika\'s entire data + AI stack: production databases, Databricks lakehouse, BI analytics, and LLM systems powering customer service and sales',
+      'Built and deployed two in-house AI agents (customer support + lead handling) that auto-resolve ~45% of frontline conversations and cut average customer wait time, backed by continuous monitoring for quality and regressions',
+      'Drive digitalisation and automation across departments, replacing manual processes to make the organisation leaner and more efficient',
+      'Defined the foundational KPIs and data definitions used to track and steer battery-swapping network operations',
+      'Built a spatial-clustering model (DBSCAN-style) on battery GPS telemetry (lat/long/timestamp) to verify customer residence for KYC — consolidates fragmented swap-location history into probable home cluster(s) with confidence scores',
+      'Developed real-time dashboards for cabinet and battery monitoring, covering alarms, utilisation, and operational insights',
+      'Automated recurring reporting delivered to management, internal teams, and external partners',
     ],
   },
   {
