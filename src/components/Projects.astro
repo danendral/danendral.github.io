@@ -7,11 +7,13 @@ import { projects } from '../data/projects';
     <h2 class="font-heading text-3xl md:text-4xl font-bold mb-12 max-w-[720px] mx-auto">Projects</h2>
     <div class="grid md:grid-cols-2 gap-6">
       {projects.map((project) => {
+        const hasDetail = Boolean(project.slug && project.details);
+        const Tag = hasDetail ? 'a' : 'div';
         return (
-          <a href={project.slug ? `/projects/${project.slug}` : undefined}
+          <Tag href={hasDetail ? `/projects/${project.slug}` : undefined}
              class:list={[
                "bg-bg/40 backdrop-blur-sm border border-border rounded-lg p-6 transition-all duration-300 block no-underline text-inherit",
-               project.slug && "hover:scale-[1.02] hover:border-accent/30 cursor-pointer"
+               hasDetail && "hover:scale-[1.02] hover:border-accent/30 cursor-pointer"
              ]}>
             <h3 class="font-heading text-lg mb-2">{project.title}</h3>
             <p class="text-text-secondary text-sm leading-relaxed mb-4">{project.description}</p>
@@ -20,7 +22,7 @@ import { projects } from '../data/projects';
                 <span class="text-xs font-mono px-2 py-1 bg-bg-subtle text-text-muted rounded">{tag}</span>
               ))}
             </div>
-          </a>
+          </Tag>
         );
       })}
     </div>
