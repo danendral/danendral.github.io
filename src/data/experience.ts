@@ -22,11 +22,11 @@ export const experiences: Experience[] = [
   },
   {
     company: 'Belajarlagi',
-    role: 'Excel Bootcamp Instructor',
+    role: 'Excel Bootcamp Instructor (Freelance)',
     period: 'Jul 2025 – Aug 2025',
     description: [
-      'Deliver Excel training from fundamentals to advanced analytics, Power Query, Power Pivot, and interactive dashboards',
-      'Design business case-driven projects to develop practical analytical thinking',
+      'Taught 130+ learners across 2 cohorts (students, fresh graduates, working professionals) from fundamentals to advanced analytics, Power Query, Power Pivot, and interactive dashboards — translating complex technical concepts for non-technical audiences',
+      'Designed business case-driven projects; achieved 4.81/5 satisfaction',
     ],
   },
   {
