@@ -1,43 +1,60 @@
-# Astro Starter Kit: Minimal
+# Danendra Lohanata — Personal Website
 
-```sh
-npm create astro@latest -- --template minimal
+Personal portfolio site for Danendra Lohanata, Data and AI Lead at Oyika.
+
+**Live:** https://danendralohanata.github.io
+
+## Stack
+
+- **Astro** (static site generator)
+- **React** (interactive islands: ChatWidget, ProjectCard, FadeIn)
+- **Tailwind CSS**
+- **Framer Motion** (scroll animations)
+- **Supabase Edge Functions** (AI chatbot backend)
+- **GitHub Pages** (deployment via GitHub Actions)
+
+## Dev
+
+```powershell
+npm install
+npm run dev      # http://localhost:4321
+npm run build    # production build to ./dist/
+npm run preview  # preview production build
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+Note: git on this machine requires the full path:
+```powershell
+$git = "C:\Program Files\Git\mingw64\libexec\git-core\git.exe"
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Site Sections
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+| Section | Component | Data |
+|---------|-----------|------|
+| Hero | `src/components/Hero.astro` | inline |
+| Experience | `src/components/Experience.astro` | `src/data/experience.ts` |
+| Education | `src/components/Education.astro` | `src/data/education.ts` |
+| Projects | `src/components/Projects.astro` | `src/data/projects.ts` |
+| Achievements | `src/components/Achievements.astro` | `src/data/achievements.ts` |
+| Blog | `src/components/Blog.astro` | `src/content/blog/` (MDX) |
+| Contact | `src/components/Contact.astro` | inline |
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Chatbot
 
-## 🧞 Commands
+AI chat widget powered by a Supabase Edge Function at `supabase/functions/chat/index.ts`.
 
-All commands are run from the root of the project, from a terminal:
+Deploy: `npx supabase functions deploy chat --project-ref xnnteydwzgeoiwhytgcp`
+Secret: `npx supabase secrets set OPENAI_API_KEY=<key> --project-ref xnnteydwzgeoiwhytgcp`
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## Status (2026-06-10)
 
-## 👀 Want to learn more?
+- [x] All core sections built and styled
+- [x] 3 project detail pages (crypto-backtesting-engine, bantu-ai, football-match-video-analysis)
+- [x] AI chatbot deployed and working
+- [x] CNA press feature in Hero + Achievements
+- [ ] Blog posts (placeholder "Coming Soon" state)
+- [ ] Push to GitHub Pages
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Session records
+
+See `handoff/` for per-session change logs.
