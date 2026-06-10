@@ -8,6 +8,20 @@ interface Message {
 
 const CHAT_API_URL = 'https://xnnteydwzgeoiwhytgcp.supabase.co/functions/v1/chat';
 const SESSION_KEY = 'dan-chat-session';
+const SESSION_ID_KEY = 'dan-chat-session-id';
+
+function getSessionId(): string {
+  try {
+    let id = sessionStorage.getItem(SESSION_ID_KEY);
+    if (!id) {
+      id = crypto.randomUUID();
+      sessionStorage.setItem(SESSION_ID_KEY, id);
+    }
+    return id;
+  } catch {
+    return 'unknown';
+  }
+}
 
 function loadSession(): Message[] {
   try {
@@ -90,7 +104,10 @@ export default function ChatWidget() {
     try {
       const response = await fetch(CHAT_API_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'x-session-id': getSessionId(),
+        },
         body: JSON.stringify({
           messages: newMessages.map(m => ({ role: m.role, content: m.content })),
         }),
