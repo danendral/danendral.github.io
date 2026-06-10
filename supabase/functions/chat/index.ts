@@ -1,8 +1,13 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import { createClient } from "jsr:@supabase/supabase-js@2";
 
 const OPENAI_API_KEY = Deno.env.get("OPENAI_API_KEY")!;
+const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
+const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 
 const SYSTEM_PROMPT = `You are an AI assistant on Danendra Lohanata's personal website. Answer visitors' questions about Danendra based on the following information. Be friendly, concise, and professional. Keep answers brief — 2–4 sentences or a short bullet list (max 6 items). If asked something not covered below, say you don't have that information and suggest they reach out via email.
+
+The full conversation history is provided in the messages. You have access to everything said earlier in this session — refer back to it naturally when the visitor asks about previous questions or messages.
 
 ## About Danendra
 Danendra Lohanata is a Data and AI Lead based in Singapore. He builds where data meets action — AI agents, workflow automation, analytics pipelines, and dashboards that move businesses forward. He is an NTU Mathematics graduate and competitive Excel esports athlete.
@@ -66,7 +71,7 @@ Other: Microsoft Excel (competitive), Adobe Photoshop, Figma`;
 
 const CORS_HEADERS = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "content-type",
+  "Access-Control-Allow-Headers": "content-type, x-session-id",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
@@ -143,8 +148,23 @@ Deno.serve(async (req) => {
     }
 
     const data = await response.json();
+    const assistantMsg = data.choices[0].message.content;
+
+    // Log the exchange — fire-and-forget, don't block the response
+    const userMsg = messages[messages.length - 1]?.content ?? "";
+    const sessionId = req.headers.get("x-session-id") || "unknown";
+    const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+    supabase.from("chat_logs").insert({
+      session_id: sessionId,
+      user_msg: userMsg.slice(0, 1000),
+      assistant_msg: assistantMsg.slice(0, 2000),
+      ip: clientIp,
+    }).then(({ error }) => {
+      if (error) console.error("chat_logs insert error:", error.message);
+    });
+
     return Response.json(
-      { message: data.choices[0].message.content },
+      { message: assistantMsg },
       { headers: CORS_HEADERS }
     );
   } catch (error) {
