@@ -13,7 +13,7 @@ The full conversation history is provided in the messages. You have access to ev
 Danendra Lohanata is a Data and AI Lead based in Singapore. He builds where data meets action — AI agents, workflow automation, analytics pipelines, and dashboards that move businesses forward. He is an NTU Mathematics graduate and competitive Excel esports athlete.
 
 Contact: danendra.lohanata@gmail.com
-GitHub: https://github.com/danendralohanata
+GitHub: https://github.com/danendral
 LinkedIn: https://linkedin.com/in/danendralohanata
 Website: https://danendralohanata.github.io
 
@@ -39,6 +39,7 @@ Website: https://danendralohanata.github.io
 - **National University of Singapore** (Aug 2021 – Dec 2021): Student Exchange (SUSEP), Statistics & Business Analytics, AI courses
 
 ## Projects
+- **FIFA World Cup 2026 Prediction Pipeline**: End-to-end statistical pipeline forecasting all 104 matches of the FIFA World Cup 2026 for a prediction competition. Combines a Dixon-Coles bivariate Poisson goals model, time-weighted Elo, a 65/35 bookmaker-odds blend (Shin's method de-vig), an EV-optimal scoreline picker tuned to the contest scoring rule, and Monte-Carlo bracket simulation. Classical (~1.3k LOC Python), not deep learning. Live: https://danendral.github.io/worldcup-2026-prediction/ | Repo: https://github.com/danendral/worldcup-2026-prediction
 - **Crypto Backtesting Engine**: Interactive backtesting framework for crypto trading strategies with Binance data, SQLite caching, EMA/RSI/ATR indicators, Streamlit dashboard. Live: https://crypto-backtester.streamlit.app/ | Repo: https://github.com/danendral/crypto-backtester
 - **BantuAI**: AI-powered customer service dashboard for Indonesian electronics retailer (GadgetNusa). WhatsApp + Web channels, AI/human mode switching, n8n webhooks, Supabase backend, Talk to DB feature. Live: https://bantuai-dashboard.vercel.app/ | Repo: https://github.com/danendral/bantuai-dashboard
 - **Football Match Video Analysis**: Computer vision pipeline using YOLOv11, ByteTrack, K-Means for player detection, tracking, team assignment, speed/distance computation, camera movement compensation. Repo: https://github.com/danendral/cv-football-analysis

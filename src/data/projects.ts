@@ -10,6 +10,30 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    title: 'FIFA World Cup 2026 Prediction Pipeline',
+    slug: 'worldcup-2026-prediction',
+    description: 'An end-to-end statistical pipeline that forecasts all 104 matches of the FIFA World Cup 2026 for a prediction competition, pairing a Dixon-Coles goals model with bookmaker odds and an EV-optimal scoreline picker tuned to the contest\'s scoring rule.',
+    details: `## Overview
+A single-notebook submission for a World Cup 2026 prediction competition that predicts every one of the 104 tournament matches (72 group + 32 knockout) before kickoff. The pipeline is deliberately classical (~1.3k LOC of Python) rather than deep-learning, on the premise that a well-specified statistical model beats an under-specified neural one on a sample of only a few thousand low-information internationals per year. Its defining edge is an EV-optimal scoreline picker built around the competition's asymmetric, overlapping scoring rule.
+
+## Key Features
+- **EV-optimal score picker** — Converts a goal distribution into the scoreline whose neighborhood (same goal-difference or same total) captures the most probability mass, rather than the modal scoreline — the single biggest edge under the contest's overlapping scoring buckets.
+- **Dixon-Coles goals model** — Bivariate Poisson with a low-score correction for nil-nils and one-all draws, fit on internationals from 2014 onward with exponential time-weighting (~2.6-year half-life).
+- **Time-weighted Elo** — FIFA-style Elo over the full 1872–2026 match history, with tournament-importance K-factors and a goal-difference multiplier, fed into the goals model as a feature.
+- **Bookmaker odds blend** — De-vigs consensus h2h odds via Shin's method and blends 65% odds / 35% model on 1X2 outcomes, then uses iterative proportional fitting to rescale the 8×8 score grid to match the blended marginals.
+- **Monte-Carlo bracket simulation** — Simulates group play with FIFA tiebreakers, resolves the four best third-place qualifiers, and propagates winners through the knockout tree to predict each Round-of-32 matchup — critical because each error compounds across higher-multiplier rounds.
+- **Ancillary market models** — Lookup tables for corners, yellow cards, and red cards seeded from WC2018/WC2022 averages and adjusted by match context.
+
+## Architecture
+A modular Python pipeline (NumPy, pandas, SciPy) where each stage is its own module: data ingestion pulls ~50k historical results and live odds, Elo and Dixon-Coles models are fit to artifacts, the odds blend and EV picker produce per-match predictions, and a Monte-Carlo simulator resolves the knockout bracket. The final submission is assembled into two contest-schema DataFrames inside a Jupyter notebook, with an interactive GitHub Pages dashboard visualizing the predictions.
+
+## Model Training
+The goals model is a Dixon-Coles bivariate Poisson fit on international matches from 2014-01-01 onward (last three World Cup cycles), using exponential time-weighting (ξ = 0.005/week, half-life ≈ 2.6 years) to discount older results. Goal rates are parameterized as λ = exp(α_attack + β_defense + γ·home_adv + θ·Δelo), with a low-score correction τ inflating the {(0,0),(1,0),(0,1),(1,1)} cells. Elo ratings, trained separately on the full 1872–2026 history, supply the Δelo strength feature.`,
+    tags: ['Python', 'NumPy', 'pandas', 'SciPy', 'Jupyter', 'Monte Carlo', 'Statistical Modeling'],
+    liveUrl: 'https://danendral.github.io/worldcup-2026-prediction/',
+    repoUrl: 'https://github.com/danendral/worldcup-2026-prediction',
+  },
+  {
     title: 'Crypto Backtesting Engine',
     slug: 'crypto-backtesting-engine',
     description: 'Interactive backtesting framework that simulates cryptocurrency trading strategies against historical Binance data, with cached SQLite storage, technical indicators (EMA, RSI, ATR), and a Streamlit dashboard for configuring strategies and visualizing results.',
