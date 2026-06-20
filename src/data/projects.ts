@@ -10,6 +10,27 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    title: 'Unlimited Tango',
+    slug: 'unlimited-tango',
+    description:
+      "A web-based logic puzzle game in the style of LinkedIn's Tango. Players fill a grid with suns and moons under adjacency and balance constraints, powered by a generator that guarantees every board is uniquely solvable.",
+    details: `## Overview
+Unlimited Tango is a browser-based logic puzzle trainer inspired by the Tango/Binairo genre. Players fill a grid with suns and moons so that no three identical symbols sit adjacent, every row and column is balanced, and all \`=\`/\`×\` edge clues are satisfied. It exists to provide an endless supply of fresh, fair puzzles rather than a fixed daily set, with optional sign-in to persist progress.
+
+## Key Features
+- **Uniqueness-verified generator**: Procedurally builds boards across 6×6, 8×8, and 10×10 sizes and validates each has exactly one solution before serving it.
+- **Deduction-based solver**: A repeated hint/deduction engine confirms every puzzle is solvable through logic alone, with audited fallback boards for failure recovery.
+- **Constraint clues**: Supports \`=\` (adjacent cells match) and \`×\` (adjacent cells differ) edge constraints in addition to the core adjacency and balance rules.
+- **Fluid input**: Left click/tap cycles empty to sun to moon, with a right-click shortcut and disabled context menu on the grid.
+- **Accounts & saved history**: Google sign-in via Supabase persists game history for returning players.
+- **Offline-resilient**: The game stays fully playable even when the auth/database backend is not configured.
+
+## Architecture
+Built on Next.js (App Router) with a React client component driving the interactive grid, written in TypeScript and styled with Tailwind CSS. Supabase provides authentication (Google OAuth) and a Postgres store for saved history, while the seeded puzzle generator and deduction engine run as standalone TypeScript modules. The app is deployed on Vercel with Analytics and Speed Insights enabled.`,
+    tags: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Supabase', 'PostgreSQL', 'Vercel'],
+    liveUrl: 'https://unlimited-tango.com',
+  },
+  {
     title: 'FIFA World Cup 2026 Prediction Pipeline',
     slug: 'worldcup-2026-prediction',
     description: 'An end-to-end statistical pipeline that forecasts all 104 matches of the FIFA World Cup 2026 for a prediction competition, pairing a Dixon-Coles goals model with bookmaker odds and an EV-optimal scoreline picker tuned to the contest\'s scoring rule.',
