@@ -368,6 +368,12 @@ deno_version = 2
 # [edge_runtime.secrets]
 # secret_key = "env(SECRET_VALUE)"
 
+# The chat function is called from the public website without an auth header
+# (see src/components/ChatWidget.tsx). Disable JWT verification so the gateway
+# does not reject those requests; the function does its own rate limiting.
+[functions.chat]
+verify_jwt = false
+
 [analytics]
 enabled = true
 port = 54327
